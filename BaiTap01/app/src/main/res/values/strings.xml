@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Bai1</string>
+    <string name="student_name">Võ Nguyễn Quỳnh Như</string>
+    <string name="student_id">MSSV: 23162074</string>
+    <string name="student_major">Ngành: An Toàn Thông Tin</string>
+    <string name="student_faculty">Khoa: Công Nghệ Thông Tin</string>
+    <string name="student_university">Trường: Đại học Sư Phạm Kỹ Thuật TP.HCM</string>
+    <string name="github_button">GitHub</string>
+    <string name="email_button">Email</string>
+    <string name="input_hint">Nhập chuỗi bất kỳ</string>
+    <string name="reverse_button">Đảo ngược</string>
+</resources>
