@@ -28,9 +28,24 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Yêu cầu 4: In ra số chẵn và số lẻ từ ArrayList
-        ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-        logEvenAndOddNumbers(numbers);
+        binding.processNumbersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String inputText = binding.numberInput.getText().toString();
+                if (!inputText.isEmpty()) {
+                    ArrayList<Integer> numbers = new ArrayList<>();
+                    String[] numberStrings = inputText.split(",");
+                    for (String s : numberStrings) {
+                        try {
+                            numbers.add(Integer.parseInt(s.trim()));
+                        } catch (NumberFormatException e) {
+                            // Bỏ qua các giá trị không phải là số
+                        }
+                    }
+                    logEvenAndOddNumbers(numbers);
+                }
+            }
+        });
 
         // Yêu cầu 5: Đảo ngược và in hoa chuỗi
         binding.reverseButton.setOnClickListener(new View.OnClickListener() {
@@ -57,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("email", "23162074@student.hcmute.edu.vn");
+                ClipData clip = ClipData.newPlainText("email", getString(R.string.student_email));
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(MainActivity.this, "Đã sao chép Email vào Clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, getString(R.string.email_copied_to_clipboard), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -75,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
                 oddNumbers.add(number);
             }
         }
+
+        binding.evenNumbersText.setText("Số chẵn: " + evenNumbers.toString());
+        binding.oddNumbersText.setText("Số lẻ: " + oddNumbers.toString());
 
         Log.d("EvenNumbers", evenNumbers.toString());
         Log.d("OddNumbers", oddNumbers.toString());

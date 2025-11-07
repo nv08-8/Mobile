@@ -9,4 +9,9 @@
     <string name="email_button">Email</string>
     <string name="input_hint">Nhập chuỗi bất kỳ</string>
     <string name="reverse_button">Đảo ngược</string>
+    <string name="student_quote">📌The best way to predict the future is to create it.</string>
+    <string name="number_input_hint">Nhập các số, cách nhau bằng dấu phẩy</string>
+    <string name="process_numbers_button">Lọc số</string>
+    <string name="student_email">23162074@student.hcmute.edu.vn</string>
+    <string name="email_copied_to_clipboard">Đã sao chép Email vào Clipboard</string>
 </resources>
