@@ -2,48 +2,61 @@ package vn.hcmute.sqlite;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.widget.ListView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+
+import vn.hcmute.sqlite.Adapters.NotesAdapter;
 import vn.hcmute.sqlite.DB.DatabaseHandle;
+import vn.hcmute.sqlite.Models.NotesModel;
 
 public class MainActivity extends AppCompatActivity {
     //khai báo biến toàn cục
+    DatabaseHandle databaseHandle;
+    ListView listView;
+    ArrayList<NotesModel> arrayList;
+    NotesAdapter notesAdapter;
 
-     DatabaseHandle databaseHandle;
-     @Override
-     protected void onCreate(Bundle savedInstanceState) {
-         super.onCreate(savedInstanceState);
-         setContentView(R.layout.activity_main);
-         //gọi hàm databaseSQLite
-         InitDatabaseSQLite();
-         //createDatabaseSQLite();
-         databaseSQLite();
-     }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-     private void createDatabaseSQLite() {
-         //thêm dữ liệu vào bảng
-         databaseHandle.QueryData("INSERT INTO Notes VALUES (null, ' Ví dụ SQLite 1')");
-         databaseHandle.QueryData("INSERT INTO Notes VALUES (null, ' Ví dụ SQLite 2')");
-     }
+        listView = findViewById(R.id.listView1);
+        arrayList = new ArrayList<>();
+        notesAdapter = new NotesAdapter(this, R.layout.item_notes, arrayList);
+        listView.setAdapter(notesAdapter);
 
-     private void InitDatabaseSQLite() {
-         //khởi tạo database
-         databaseHandle = new DatabaseHandle(this, "notes.sqlite", null, 1);
-         //tạo bảng nếu chưa tồn tại
-         databaseHandle.QueryData("CREATE TABLE IF NOT EXISTS Notes(Id INTEGER PRIMARY KEY AUTOINCREMENT, Content VARCHAR)");
-     }
-    private void databaseSQLite() {
-         //Lấy dữ liệu
-        Cursor cursor = databaseHandle.GetData("SELECT * FROM Notes");
-        while (cursor.moveToNext()) {
-            String name = cursor.getString(1);
-            Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
+        //khởi tạo database
+        databaseHandle = new DatabaseHandle(this);
+
+        // Load notes to check if the database is empty
+        loadNotes();
+
+        // If the list is empty, it's likely the first run, so add sample data
+        if (arrayList.isEmpty()) {
+            createSampleData();
+            // Reload notes after adding data
+            loadNotes();
         }
+    }
+
+    private void createSampleData() {
+        databaseHandle.queryData("INSERT INTO " + DatabaseHandle.TABLE_NAME + " (NameNote) VALUES ('Ví dụ 1')");
+        databaseHandle.queryData("INSERT INTO " + DatabaseHandle.TABLE_NAME + " (NameNote) VALUES ('Ví dụ 2')");
+    }
+
+    private void loadNotes() {
+        Cursor cursor = databaseHandle.getData("SELECT * FROM " + DatabaseHandle.TABLE_NAME);
+        arrayList.clear();
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            arrayList.add(new NotesModel(id, name));
+        }
+        notesAdapter.notifyDataSetChanged();
+        cursor.close();
     }
 }

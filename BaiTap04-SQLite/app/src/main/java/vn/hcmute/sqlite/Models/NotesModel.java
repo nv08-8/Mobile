@@ -6,6 +6,11 @@ public class NotesModel implements Serializable{
     private int IdNote;
     private String NameNote;
 
+    public NotesModel(int id, String name) {
+        this.IdNote = id;
+        this.NameNote = name;
+    }
+
     public int getIdNote() {
         return IdNote;
     }
