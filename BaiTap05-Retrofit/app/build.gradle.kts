@@ -45,6 +45,8 @@ dependencies {
     // Load images with Glide
     implementation ("com.github.bumptech.glide:glide:4.14.2")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
+    // Load images with Picasso
+    implementation("com.squareup.picasso:picasso:2.5.2")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

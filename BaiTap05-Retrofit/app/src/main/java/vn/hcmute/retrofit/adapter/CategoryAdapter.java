@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
@@ -53,6 +55,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             super(itemView);
             images = itemView.findViewById(R.id.image_cate);
             tenSp = itemView.findViewById(R.id.tvNameCategory);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "Bạn đã chọn category" + array.get(getAdapterPosition()).getName(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }
