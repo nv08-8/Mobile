@@ -2,11 +2,11 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+// flatDir repo moved to settings.gradle.kts because dependencyResolutionManagement forbids project repos
+
 android {
     namespace = "vn.hcmute.viewflipper_cricleindicator"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "vn.hcmute.viewflipper_cricleindicator"
@@ -38,10 +38,21 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation("androidx.viewpager2:viewpager2:1.1.0")
-    implementation("com.github.bumptech.glide:glide:4.15.1")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
-    implementation("me.relex:circleindicator:2.1.6")
+    implementation(libs.viewpager2)
+    implementation(libs.glide)
+    annotationProcessor(libs.glideCompiler)
+    implementation(libs.circleindicator)
+    implementation(libs.retrofit)
+    implementation(libs.retrofitConverterGson)
+
+    // JitPack dependency for autoimageslider is commented out so Gradle won't attempt to fetch it
+    // (the project contains a local compatibility shim under com.smarteist.autoimageslider)
+    // implementation("com.github.smarteist:autoimageslider:1.4.0")
+
+    // If you prefer to use the real library and can't fetch it from JitPack,
+    // download the AAR and place it into app/libs/ and uncomment the following:
+    // implementation(name = "autoimageslider-1.4.0", ext = "aar")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

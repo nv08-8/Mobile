@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context=".MainActivity">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpage"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"/>
-
-    <me.relex.circleindicator.CircleIndicator
-        android:id="@+id/circle_indicator"
+    <Button
+        android:id="@+id/btnViewFlipper"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_margin="5dp"
-        android:layout_gravity="center_horizontal"
-        app:ci_drawable="@drawable/bg" />
+        android:layout_height="wrap_content"
+        android:text="Slide Images with ViewFlipper"/>
+
+    <Button
+        android:id="@+id/btnViewPager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Slide Images with ViewPager and Indicator"/>
+
+    <Button
+        android:id="@+id/btnViewPager2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Slide Images with ViewPager2 and Indicator"/>
+
+    <Button
+        android:id="@+id/btnSliderView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Slide Images with SliderView"/>
 
 </LinearLayout>

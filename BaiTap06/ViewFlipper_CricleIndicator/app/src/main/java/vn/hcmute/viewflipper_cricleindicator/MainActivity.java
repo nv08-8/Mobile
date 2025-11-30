@@ -1,95 +1,50 @@
 package vn.hcmute.viewflipper_cricleindicator;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ViewFlipper;
+import android.widget.Button;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.viewpager.widget.ViewPager;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import me.relex.circleindicator.CircleIndicator;
 
 public class MainActivity extends AppCompatActivity {
-
-    private ViewPager viewPager;
-    private ImagesViewPageAdapter adapter;
-    private CircleIndicator circleIndicator;
-
-    private ViewFlipper viewFlipper;
-
-    private List<Images> imagesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewPager = findViewById(R.id.viewpage);
-        circleIndicator = findViewById(R.id.circle_indicator);
-        imagesList = getListImages();
-        adapter = new ImagesViewPageAdapter(imagesList);
-        viewPager.setAdapter(adapter);
-        circleIndicator.setViewPager(viewPager);
 
-        //goi runnable
-        handler.postDelayed(runnable, 3000);
-        //lang nghe viewpager chuyen trang
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
-        {
+        Button btnViewFlipper = findViewById(R.id.btnViewFlipper);
+        Button btnViewPager = findViewById(R.id.btnViewPager);
+        Button btnViewPager2 = findViewById(R.id.btnViewPager2);
+        Button btnSliderView = findViewById(R.id.btnSliderView);
+
+        btnViewFlipper.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPageScrolled ( int position, float positionOffset, int positionOffsetPixels){
-            }
-            @Override
-            public void onPageSelected(int position) {
-                handler.removeCallbacks(runnable);
-                handler.postDelayed(runnable, 3000);
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ViewFlipperActivity.class));
             }
         });
-    }
-    private List<Images> getListImages() {
-        List<Images> list = new ArrayList<>();
-        list.add(new Images(R.drawable.quangcao));
-        list.add(new Images(R.drawable.coffee));
-        list.add(new Images(R.drawable.companypizza));
-        list.add(new Images(R.drawable.themoingon));
-        return list;
-    }
 
-    private final Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            if (viewPager.getCurrentItem() == imagesList.size()-1) {
-                viewPager.setCurrentItem(0);
+        btnViewPager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ViewPagerIndicatorActivity.class));
             }
-            else {
-                viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
+        });
+
+        btnViewPager2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ViewPager2IndicatorActivity.class));
             }
-        }
-    };
-    private final Handler handler = new Handler(Looper.getMainLooper());
+        });
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        handler.postDelayed(runnable, 3000);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        handler.removeCallbacks(runnable);
+        btnSliderView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SliderViewActivity.class));
+            }
+        });
     }
 }

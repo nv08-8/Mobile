@@ -26,15 +26,26 @@ public class ViewFlipperActivity extends AppCompatActivity {
 
     //hàm Flipper
     private void ActionViewFlipperMain() {
-        List<String> arrayListFlipper = new ArrayList<>();
-        arrayListFlipper.add("http://app.iotstar.vn/appfoods/flipper/quangcao.png");
-        arrayListFlipper.add("http://app.iotstar.vn/appfoods/flipper/coffee.jpg");
-        arrayListFlipper.add("http://app.iotstar.vn/appfoods/flipper/companypizza.jpeg");
-        arrayListFlipper.add("http://app.iotstar.vn/appfoods/flipper/themoingon.jpeg");
-        for(int i=0; i<arrayListFlipper.size(); i++){
+        // Use local drawables instead of remote URLs to avoid network 404 errors during demo
+        List<Integer> arrayListFlipper = new ArrayList<>();
+        arrayListFlipper.add(R.drawable.quangcao);
+        arrayListFlipper.add(R.drawable.coffee);
+        arrayListFlipper.add(R.drawable.companypizza);
+        arrayListFlipper.add(R.drawable.themoingon);
+        for (int i = 0; i < arrayListFlipper.size(); i++) {
             ImageView imageView = new ImageView(getApplicationContext());
-            Glide.with(getApplicationContext()).load(arrayListFlipper.get(i)).into(imageView);
+            // ensure image view fills parent so Glide doesn't interpret WRAP_CONTENT as device-size request
+            ViewFlipper.LayoutParams lp = new ViewFlipper.LayoutParams(
+                    ViewFlipper.LayoutParams.MATCH_PARENT,
+                    ViewFlipper.LayoutParams.MATCH_PARENT
+            );
+            imageView.setLayoutParams(lp);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            // load local resource id with an explicit override to a reasonable size to avoid large memory requests
+            Glide.with(getApplicationContext())
+                    .load(arrayListFlipper.get(i))
+                    .override(1080, 420)
+                    .into(imageView);
             viewFlipperMain.addView(imageView);
         }
         viewFlipperMain.setFlipInterval(3000);

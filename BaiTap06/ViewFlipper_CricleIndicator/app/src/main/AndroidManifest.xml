@@ -25,6 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ViewFlipperActivity" />
+        <activity android:name=".ViewPagerIndicatorActivity" />
+        <activity android:name=".ViewPager2IndicatorActivity" />
+        <activity android:name=".SliderViewActivity" />
+        <activity android:name=".SliderViewFallbackActivity" />
     </application>
 
 </manifest>

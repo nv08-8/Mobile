@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Minimal attrs for Smarteist AutoImageSlider used in layouts -->
+    <declare-styleable name="SliderView">
+        <!-- durations in ms -->
+        <attr name="sliderAnimationDuration" format="integer" />
+        <attr name="sliderIndicatorAnimationDuration" format="integer" />
+
+        <!-- auto cycle options -->
+        <attr name="sliderAutoCycleEnabled" format="boolean" />
+        <attr name="sliderStartAutoCycle" format="boolean" />
+        <attr name="sliderAutoCycleDirection" format="string" />
+
+        <!-- indicator appearance -->
+        <attr name="sliderIndicatorGravity" format="string" />
+        <attr name="sliderIndicatorOrientation" format="string" />
+        <attr name="sliderIndicatorMargin" format="dimension" />
+        <attr name="sliderIndicatorPadding" format="dimension" />
+        <attr name="sliderIndicatorRadius" format="dimension" />
+
+        <!-- scrolling / timing -->
+        <attr name="sliderScrollTimeInSec" format="integer" />
+    </declare-styleable>
+
+</resources>
+
