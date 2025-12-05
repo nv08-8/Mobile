@@ -13,6 +13,16 @@
         android:textSize="20sp"
         android:layout_marginBottom="16dp"/>
 
+    <!-- Debug: raw server response (visible for troubleshooting) -->
+    <TextView
+        android:id="@+id/tvRawResponse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:paddingBottom="8dp" />
+
     <ImageView
         android:id="@+id/imgProfile"
         android:layout_width="160dp"
@@ -22,6 +32,46 @@
         android:contentDescription="profile"
         android:scaleType="centerCrop"
         android:layout_marginBottom="24dp"/>
+
+    <!-- Profile fields from server -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/tvIdValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ID: -" />
+
+        <TextView
+            android:id="@+id/tvUsernameValueProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Username: -" />
+
+        <TextView
+            android:id="@+id/tvFullNameValueProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Full name: -" />
+
+        <TextView
+            android:id="@+id/tvEmailValueProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email: -" />
+
+        <TextView
+            android:id="@+id/tvGenderValueProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gender: -" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnLogout"

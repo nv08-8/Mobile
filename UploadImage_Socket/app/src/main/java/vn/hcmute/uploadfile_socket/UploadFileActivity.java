@@ -89,7 +89,12 @@ public class UploadFileActivity extends AppCompatActivity {
                         mUri = uri;
                         try {
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                            imageViewChoose.setImageBitmap(bitmap);
+                            // show selected image in the large image view to match the desired UI
+                            imageViewUpload.setImageBitmap(bitmap);
+                            // also try Glide (if present) for better scaling
+                            try {
+                                Glide.with(UploadFileActivity.this).load(uri).into(imageViewUpload);
+                            } catch (Exception ignored) {}
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -101,6 +106,12 @@ public class UploadFileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_file);
+
+        // set up action bar to show Up navigation with title "Back"
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Back");
+        }
 
         AnhXa();
 
@@ -209,11 +220,18 @@ public class UploadFileActivity extends AppCompatActivity {
             return;
         }
 
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part partbodyavatar = MultipartBody.Part.createFormData(Const.MY_IMAGES, file.getName(), requestFile);
+        // create final copies so they can be referenced from the inner callback class
+        final File uploadFile = file;
+        final boolean uploadIsTemp = isTempFile;
+
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), uploadFile);
+        MultipartBody.Part partbodyavatar = MultipartBody.Part.createFormData(Const.MY_IMAGES, uploadFile.getName(), requestFile);
+
+        // Provide the profile id so the server can associate the uploaded image with a user document in MongoDB
+        RequestBody idPart = RequestBody.create(MultipartBody.FORM, "5");
 
         // Call the API that returns a generic ResponseBody
-        ApiClient.serviceapi.upload1(requestBodyUsername, partbodyavatar).enqueue(new Callback<ResponseBody>() {
+        ApiClient.serviceapi.uploadLocal(idPart, partbodyavatar).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 mProgressDialog.dismiss();
@@ -224,13 +242,14 @@ public class UploadFileActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     serverMessage = "(unable to read response)";
                 }
+                android.util.Log.d(TAG, "Upload response code=" + response.code() + " body=" + serverMessage);
 
                 // If we saved a temp file in cache, delete it to avoid filling cache
-                if (isTempFile && file != null) {
+                if (uploadIsTemp && uploadFile != null) {
                     try {
-                        File parent = file.getParentFile();
+                        File parent = uploadFile.getParentFile();
                         if (parent != null && parent.getAbsolutePath().equals(getCacheDir().getAbsolutePath())) {
-                            file.delete();
+                            uploadFile.delete();
                         }
                     } catch (Exception ignored) {}
                 }
@@ -245,12 +264,13 @@ public class UploadFileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 mProgressDialog.dismiss();
+                android.util.Log.e(TAG, "Upload failed: " + t.getMessage(), t);
                 // Try to delete temp file if any
-                if (isTempFile && file != null) {
+                if (uploadIsTemp && uploadFile != null) {
                     try {
-                        File parent = file.getParentFile();
+                        File parent = uploadFile.getParentFile();
                         if (parent != null && parent.getAbsolutePath().equals(getCacheDir().getAbsolutePath())) {
-                            file.delete();
+                            uploadFile.delete();
                         }
                     } catch (Exception ignored) {}
                 }
@@ -278,6 +298,15 @@ public class UploadFileActivity extends AppCompatActivity {
         }
 
         return outputFile;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
