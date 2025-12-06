@@ -34,7 +34,6 @@ import java.io.InputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.BufferedOutputStream;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -44,10 +43,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Call;
 
-import vn.hcmute.uploadfile_socket.R;
 import vn.hcmute.uploadfile_socket.cons.Const;
-import vn.hcmute.uploadfile_socket.model.ImageUpload;
-import vn.hcmute.uploadfile_socket.network.ServiceAPI;
 import vn.hcmute.uploadfile_socket.network.ApiClient;
 
 public class UploadFileActivity extends AppCompatActivity {
@@ -105,7 +101,7 @@ public class UploadFileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_file);
+        setContentView(R.layout.activity_upload_image);
 
         // set up action bar to show Up navigation with title "Back"
         if (getSupportActionBar() != null) {

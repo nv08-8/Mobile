@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+     tools:context=".BlueControl">
+
+    <!-- Small title and subtitle -->
+    <TextView
+        android:id="@+id/textViewSmallTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/control_title"
+        android:textColor="#888888"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewMac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/mac_address_label"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewSmallTitle" />
+
+    <!-- Two circular ImageButtons side by side -->
+    <ImageButton
+        android:id="@+id/btnOnLeft"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/white"
+        android:contentDescription="@string/desc_on_left"
+        android:scaleType="centerInside"
+        android:src="@drawable/tb1on"
+        app:layout_constraintEnd_toStartOf="@id/btnOnRight"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewMac" />
+
+    <ImageButton
+        android:id="@+id/btnOnRight"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="48dp"
+        android:backgroundTint="@color/white"
+        android:contentDescription="@string/desc_on_right"
+        android:scaleType="centerInside"
+        android:src="@drawable/tb7on"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnOnLeft"
+        app:layout_constraintTop_toBottomOf="@id/textViewMac" />
+
+    <!-- Horizontal notification bar -->
+    <TextView
+        android:id="@+id/textViewNotification"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="#EEEEEE"
+        android:gravity="center"
+        android:text="@string/notification_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnOnLeft" />
+
+    <!-- Large center button near bottom -->
+    <ImageButton
+        android:id="@+id/btnCenter"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/white"
+        android:contentDescription="@string/desc_center"
+        android:scaleType="centerInside"
+        android:src="@drawable/btnnotconnect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewNotification" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

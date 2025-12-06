@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Uploadfile_Socket</string>
+    <string name="device_list_title">Danh sách thiết bị</string>
+    <string name="find_device_button">TÌM THIẾT BỊ</string>
+
+    <!-- strings for control activity -->
+    <string name="control_title">Thiết bị đang kết nối</string>
+    <string name="device_connected">Thiết bị đang kết nối</string>
+    <string name="mac_address_label">Địa chỉ MAC</string>
+    <string name="notification_label">Thông báo</string>
+    <string name="btn_center">Tắt/Bật</string>
+
+    <!-- content descriptions -->
+    <string name="desc_on_left">ON left</string>
+    <string name="desc_on_right">ON right</string>
+    <string name="desc_center">center button</string>
 </resources>
