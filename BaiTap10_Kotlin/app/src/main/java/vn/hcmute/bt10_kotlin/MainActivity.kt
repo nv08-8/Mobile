@@ -16,6 +16,7 @@ import vn.hcmute.bt10_kotlin.adapters.TaskAdapter
 import vn.hcmute.bt10_kotlin.database.DatabaseHelper
 import vn.hcmute.bt10_kotlin.databinding.ActivityMainBinding
 import vn.hcmute.bt10_kotlin.databinding.DialogAddTaskBinding
+import vn.hcmute.bt10_kotlin.databinding.DialogChangeTaskBinding
 import vn.hcmute.bt10_kotlin.models.Task
 import java.text.SimpleDateFormat
 import java.util.*
@@ -87,19 +88,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showAddTaskDialog(taskToEdit: Task? = null) {
+    private fun showAddTaskDialog() {
         val dialogBinding = DialogAddTaskBinding.inflate(layoutInflater)
         val dialog = AlertDialog.Builder(this)
             .setView(dialogBinding.root)
             .create()
-
-        // If editing, populate fields
-        taskToEdit?.let { task ->
-            dialogBinding.etTitle.setText(task.title)
-            dialogBinding.etDescription.setText(task.description)
-            dialogBinding.etDate.setText(task.date)
-            dialogBinding.etTime.setText(task.time)
-        }
 
         // Date picker
         dialogBinding.etDate.setOnClickListener {
@@ -130,35 +123,19 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (taskToEdit == null) {
-                // Add new task
-                val task = Task(
-                    userId = userId,
-                    title = title,
-                    description = description.ifEmpty { null },
-                    date = date.ifEmpty { null },
-                    time = time.ifEmpty { null }
-                )
-                val result = databaseHelper.addTask(task)
-                if (result != -1L) {
-                    Toast.makeText(this, "Đã thêm công việc", Toast.LENGTH_SHORT).show()
-                    loadTasks()
-                    dialog.dismiss()
-                }
-            } else {
-                // Update existing task
-                val updatedTask = taskToEdit.copy(
-                    title = title,
-                    description = description.ifEmpty { null },
-                    date = date.ifEmpty { null },
-                    time = time.ifEmpty { null }
-                )
-                val result = databaseHelper.updateTask(updatedTask)
-                if (result > 0) {
-                    Toast.makeText(this, "Đã cập nhật công việc", Toast.LENGTH_SHORT).show()
-                    loadTasks()
-                    dialog.dismiss()
-                }
+            // Add new task
+            val task = Task(
+                userId = userId,
+                title = title,
+                description = description.ifEmpty { null },
+                date = date.ifEmpty { null },
+                time = time.ifEmpty { null }
+            )
+            val result = databaseHelper.addTask(task)
+            if (result != -1L) {
+                Toast.makeText(this, "Đã thêm công việc", Toast.LENGTH_SHORT).show()
+                loadTasks()
+                dialog.dismiss()
             }
         }
 
@@ -166,8 +143,64 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showEditTaskDialog(task: Task) {
-        showAddTaskDialog(task)
+        val dialogBinding = DialogChangeTaskBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogBinding.root)
+            .create()
+
+        // Populate fields with task data
+        dialogBinding.etTitle.setText(task.title)
+        dialogBinding.etDescription.setText(task.description)
+        dialogBinding.etDate.setText(task.date)
+        dialogBinding.etTime.setText(task.time)
+
+        // Date picker
+        dialogBinding.etDate.setOnClickListener {
+            showDatePicker { date ->
+                dialogBinding.etDate.setText(date)
+            }
+        }
+
+        // Time picker
+        dialogBinding.etTime.setOnClickListener {
+            showTimePicker { time ->
+                dialogBinding.etTime.setText(time)
+            }
+        }
+
+        dialogBinding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogBinding.btnSave.setOnClickListener {
+            val title = dialogBinding.etTitle.text.toString().trim()
+            val description = dialogBinding.etDescription.text.toString().trim()
+            val date = dialogBinding.etDate.text.toString().trim()
+            val time = dialogBinding.etTime.text.toString().trim()
+
+            if (title.isEmpty()) {
+                dialogBinding.etTitle.error = "Vui lòng nhập tiêu đề"
+                return@setOnClickListener
+            }
+
+            // Update existing task
+            val updatedTask = task.copy(
+                title = title,
+                description = description.ifEmpty { null },
+                date = date.ifEmpty { null },
+                time = time.ifEmpty { null }
+            )
+            val result = databaseHelper.updateTask(updatedTask)
+            if (result > 0) {
+                Toast.makeText(this, "Đã cập nhật công việc", Toast.LENGTH_SHORT).show()
+                loadTasks()
+                dialog.dismiss()
+            }
+        }
+
+        dialog.show()
     }
+
 
     private fun confirmDeleteTask(task: Task) {
         AlertDialog.Builder(this)

@@ -24,6 +24,9 @@ class TaskAdapter(
                 tvDescription.text = task.description ?: "Không có mô tả"
                 tvDate.text = task.date ?: "Chưa có ngày"
                 tvTime.text = task.time ?: "Chưa có giờ"
+
+                // Remove listener before setting checked state to avoid triggering during bind
+                cbCompleted.setOnCheckedChangeListener(null)
                 cbCompleted.isChecked = task.isCompleted
 
                 // Strike through completed tasks
@@ -40,10 +43,16 @@ class TaskAdapter(
                     tvDescription.visibility = View.VISIBLE
                 }
 
+                // Set listener after setting the initial state
                 cbCompleted.setOnCheckedChangeListener { _, isChecked ->
                     task.isCompleted = isChecked
                     onCheckChange(task)
-                    notifyItemChanged(adapterPosition)
+                    // Update UI immediately without calling notifyItemChanged
+                    if (isChecked) {
+                        tvTitle.paintFlags = tvTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    } else {
+                        tvTitle.paintFlags = tvTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                    }
                 }
 
                 btnEdit.setOnClickListener {
