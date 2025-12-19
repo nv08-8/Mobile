@@ -1,25 +1,24 @@
 package vn.hcmute.bt11.viewmodels
-}
-    }
-        }
-            else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
-            }
-                RegisterViewModel(authRepository) as T
-            modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {
-            }
-                LoginViewModel(authRepository) as T
-            modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
-        return when {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-    @Suppress("UNCHECKED_CAST")
 
-) : ViewModelProvider.Factory {
-    private val authRepository: AuthRepository
-class AuthViewModelFactory(
-
-import vn.hcmute.bt11.repository.TaskRepository
-import vn.hcmute.bt11.repository.AuthRepository
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import vn.hcmute.bt11.repository.AuthRepository
 
+class AuthViewModelFactory(
+    private val authRepository: AuthRepository
+) : ViewModelProvider.Factory {
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return when {
+            modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
+                LoginViewModel(authRepository) as T
+            }
+            modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {
+                RegisterViewModel(authRepository) as T
+            }
+            else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+        }
+    }
+}
 
